@@ -41,8 +41,6 @@ class physicist:
         n_minus_n_minus_one = (oscillator_list[n].get_delta_x(self.L)) - (oscillator_list[n-1].get_delta_x(self.L))
         return (-1)*self.k*(n_minus_n_minus_one)
         
-        
-
     
     
     
@@ -57,26 +55,19 @@ class physicist:
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    def calculate_coordinate_single_oscillator(self, oscillator, delta_time):
+    def calculate_oscillator_coordinate(self, oscillator, delta_time):
         coordinate = oscillator.x + delta_time*oscillator.v
         return coordinate
     
-    def calculate_velocity_single_oscillator_n_plus_one_step(self, oscillator, delta_time):
+    def calculate_oscillator_velocity_step_one(self, oscillator, delta_time):
+        velocity = oscillator.v + 0.5*delta_time*oscillator.a
+        return velocity
+        
+    
+    def calculate_oscillator_velocity_n_plus_one_step(self, oscillator, delta_time):
         velocity = oscillator.v + delta_time*oscillator.a
         return velocity
     
-    def calculate_velocity_single_oscillator_step_one(self, oscillator, delta_time):
-        velocity = oscillator.v + 0.5*delta_time*oscillator.a
-        return velocity
        
     def calculate_acceleration_single_oscillator(self, oscillator):
         if oscillator.static == True:
