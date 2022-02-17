@@ -27,9 +27,8 @@ class oscillator:
         self.a = 0
         self.x = self.x_zero
         self.v = self.v_zero
-        new_list = []
-        self.coordinates_data.append(new_list)
-        self.velocity_data.append(new_list)
+        self.coordinates_data.append([])
+        self.velocity_data.append([])
         self.experiment_number += 1
         
     # TODO: add a refresh method for when a new frame loop is started 
@@ -38,5 +37,6 @@ class oscillator:
 oscillator is a class to hold the data that is specific to an individual oscillator. its functions are also individual and helps simplify the code 
 update_v and update_x are both methods used to update data on an individual oscillator without deleting previous data 
 get delta x returns the delta x for a specific oscillator 
+refresh oscillator for new experiment puts the oscillator in a state readt for next dt cycle 
 
 '''

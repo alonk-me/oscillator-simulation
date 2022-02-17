@@ -1,6 +1,6 @@
 
 class physicist:
-    '''physicist is a class to calculate acceleration, force, velocity, coordinates for the particles . it takes in all the general data that is not specific to one oscillator.'''
+    '''physicist is a class to manage the experiment. it does this by calculating acceleration, force, velocity, coordinates for the particles . it takes in all the general data that is not specific to one oscillator.'''
     
     def __init__(self, params_list, input_list):
         self.mass = params_list['mass'] 
@@ -77,4 +77,12 @@ class physicist:
     def calculate_force_on_single_oscillator(self, x):
         ''' calculates the force on a single oscillator'''
         return (-1)*(2*self.k*(x-self.L))    
+       
+       
+        
+    def reset_experiment(self, osc_list):
+        ''' initiates a restart to oscillators'''
+        for k in range(self.osc_num):   
+            osc_list[k].refresh_oscillator_for_new_experiment()
+    
     
