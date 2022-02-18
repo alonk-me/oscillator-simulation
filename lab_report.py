@@ -3,6 +3,7 @@ class lab_report:
         pass
     
     def generate_simple_report(self, osc_list, physicist):
+        '''creates single report or multiple based on how many experiments are to be done'''
         if physicist.number_of_experiments == 1:
             self.generate_single_frames_file(osc_list, physicist.frames_num[0], 0)
         elif physicist.number_of_experiments > 1 :

@@ -83,7 +83,8 @@ class physicist:
        
        
     def initate_oscillators(self, osc_list):
-        for i in range(self.osc_num):   # can incapsulate in physicist, under an initiate oscillators function
+        ''' a method to set all oscillators with their data'''
+        for i in range(self.osc_num):   
             if i == 0:
                 osc_list.append(oscillator(self.x_list[i], self.v_list[i], i, not self.first_is_open))
             elif i+1 == self.osc_num:
@@ -95,6 +96,7 @@ class physicist:
        
       
     def run_experiment(self, osc_list):
+        ''' a function to run the experiment loop'''
         for j in range(self.number_of_experiments):    
             for frame in range(self.frames_num[j]): 
                 self.measure_and_document_acceleration(osc_list)
@@ -103,10 +105,12 @@ class physicist:
             self.reset_experiment(osc_list)
             
     def measure_and_document_acceleration(self, osc_list):
+        '''  measures acceleration of all oscillators in experiment '''
         for i in range(len(osc_list)):
             osc_list[i].a = self.calculate_acceleration_n_oscillators(osc_list, i)
       
     def measure_and_document_velocity(self, osc_list, frame, j):  
+        ''' measures and documents velocity of all oscillators in experiment'''
         for s in range(len(osc_list)):
             new_v = 0
             if frame == 0 :
@@ -115,7 +119,8 @@ class physicist:
                 new_v = self.calculate_oscillator_velocity_n_plus_one_step(osc_list[s], self.dt[j])
             osc_list[s].update_v(new_v)
     
-    def measure_and_document_coordinate(self, osc_list, frame, j):   
+    def measure_and_document_coordinate(self, osc_list, frame, j): 
+        ''' measures and documents coordinate of all oscillators in experiment'''
         for l in range(len(osc_list)):  
             new_x = 0
             new_x = self.calculate_oscillator_coordinate(osc_list[l], self.dt[j])
@@ -125,7 +130,7 @@ class physicist:
 
             
     def reset_experiment(self, osc_list):
-        ''' initiates a restart to oscillators'''
+        ''' initiates a restart to oscillators to simulate next dt/frames '''
         for k in range(self.osc_num):   
             osc_list[k].refresh_oscillator_for_new_experiment()
     
