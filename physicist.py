@@ -79,7 +79,41 @@ class physicist:
         return (-1)*(2*self.k*(x-self.L))    
        
        
-        
+       
+       
+       
+       
+      
+    def run_experiment(self, osc_list):
+        for j in range(self.number_of_experiments):    # can incapsulate everything in physicist, functions ready
+            for frame in range(self.frames_num[j]): 
+                self.measure_and_document_acceleration(osc_list)
+                self.measure_and_document_velocity(osc_list, frame, j)
+                self.measure_and_document_coordinate(osc_list, frame, j)
+            self.reset_experiment(osc_list)
+            
+    def measure_and_document_acceleration(self, osc_list):
+        for i in range(len(osc_list)):
+            osc_list[i].a = self.calculate_acceleration_n_oscillators(osc_list, i)
+      
+    def measure_and_document_velocity(self, osc_list, frame, j):  
+        for s in range(len(osc_list)):
+            new_v = 0
+            if frame == 0 :
+                new_v = self.calculate_oscillator_velocity_step_one(osc_list[s], self.dt[j])   
+            elif frame != 0 :
+                new_v = self.calculate_oscillator_velocity_n_plus_one_step(osc_list[s], self.dt[j])
+            osc_list[s].update_v(new_v)
+    
+    def measure_and_document_coordinate(self, osc_list, frame, j):   
+        for l in range(len(osc_list)):  
+            new_x = 0
+            new_x = self.calculate_oscillator_coordinate(osc_list[l], self.dt[j])
+            osc_list[l].update_x(new_x)
+            
+    
+
+            
     def reset_experiment(self, osc_list):
         ''' initiates a restart to oscillators'''
         for k in range(self.osc_num):   
