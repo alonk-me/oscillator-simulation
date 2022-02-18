@@ -1,3 +1,4 @@
+from oscillator import *
 
 class physicist:
     '''physicist is a class to manage the experiment. it does this by calculating acceleration, force, velocity, coordinates for the particles . it takes in all the general data that is not specific to one oscillator.'''
@@ -81,11 +82,20 @@ class physicist:
        
        
        
-       
+    def initate_oscillators(self, osc_list):
+        for i in range(self.osc_num):   # can incapsulate in physicist, under an initiate oscillators function
+            if i == 0:
+                osc_list.append(oscillator(self.x_list[i], self.v_list[i], i, not self.first_is_open))
+            elif i+1 == self.osc_num:
+                osc_list.append(oscillator(self.x_list[i], self.v_list[i], i, not self.last_is_open, True))
+            else:    
+                osc_list.append(oscillator(self.x_list[i], self.v_list[i], i,))
+    
+        
        
       
     def run_experiment(self, osc_list):
-        for j in range(self.number_of_experiments):    # can incapsulate everything in physicist, functions ready
+        for j in range(self.number_of_experiments):    
             for frame in range(self.frames_num[j]): 
                 self.measure_and_document_acceleration(osc_list)
                 self.measure_and_document_velocity(osc_list, frame, j)
