@@ -15,3 +15,6 @@
 |t final | delta t * (number of frames - 1) |
 | possible libraries | <ul><li>numpy</li><li>pandas</li><li>pyplot</li><li>json</li><li>matlab</li></ul>|
 | flow | calculate velocity then location then acceleration <br/> and then move to next frame |
+
+
+<p>clac E is called calculate energy</p>

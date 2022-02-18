@@ -8,9 +8,11 @@ class oscillator:
         self.static = static
         self.last = last
         self.a = 0
+        self.acceleration_data = [[]]
         self.coordinates_data = [[]]
         self.velocity_data = [[]]
         self.experiment_number = 0
+        self.time_regression_velocity_data = [[]]
         
     def update_x(self, new_x):
         self.coordinates_data[self.experiment_number].append(self.x)
@@ -20,18 +22,26 @@ class oscillator:
         self.velocity_data[self.experiment_number].append(self.v)
         self.v = new_v
 
+    def update_a(self, new_a):
+        self.acceleration_data[self.experiment_number].append(self.a)
+        self.a = new_a
+
+
     def get_delta_x(self, L):  
         return self.x - (L*self.osc_index)
         
-    def refresh_oscillator_for_new_experiment(self):
+    def refresh_oscillator_for_new_experiment(self):  
         self.a = 0
         self.x = self.x_zero
         self.v = self.v_zero
+        self.acceleration_data.append([])
         self.coordinates_data.append([])
         self.velocity_data.append([])
         self.experiment_number += 1
         
    
+
+                    
 '''
 
 oscillator is a class to hold the data that is specific to an individual oscillator. its functions are also individual and helps simplify the code 
