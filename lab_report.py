@@ -8,6 +8,8 @@ class lab_report:
             self.generate_single_frames_file(osc_list, physicist.frames_num[0], 0)
         elif physicist.number_of_experiments > 1 :
             self.generate_multiple_frames_files(osc_list, physicist.frames_num, physicist.number_of_experiments)
+        if physicist.osc_num <= 4 :
+            self.generate_single_frequencies_file(physicist)
     
     
     
@@ -41,6 +43,22 @@ class lab_report:
             scribe.write('\n')
         scribe.close()
         
+    
+    def generate_single_frequencies_file(self, physicist):
+        scribe = open('frequencies.txt', 'a')
+        for i in range(physicist.number_of_experiments):
+            omega_analytic = str(physicist.omega) + '\t'
+            scribe.write(omega_analytic)
+            omega_approx = str(physicist.calculated_omega[i]) + '\t'
+            scribe.write(omega_approx)
+            delta_omega = abs(physicist.omega - physicist.calculated_omega[i])/physicist.omega
+            delta_omega_str = str(delta_omega) + '\n'
+            scribe.write(delta_omega_str)
+            
+    
+    
+    
+    
     def generate_velocity_file(self, osc_list, num_frames, experiment_number):
         ''' sometimes tab looks like space, depends on text editor. '''
         scribe = open('velocity.txt', 'a')

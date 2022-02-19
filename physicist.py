@@ -1,5 +1,6 @@
 from oscillator import *
 import scipy.signal
+from math import pi as num_pi
 
 class physicist:
     '''physicist is a class to manage the experiment. it does this by calculating acceleration, force, velocity, coordinates for the particles . it takes in all the general data that is not specific to one oscillator.'''
@@ -17,6 +18,7 @@ class physicist:
         self.last_is_open = params_list['last_is_open']
         self.osc_num = params_list['osc_num']
         self.omega = params_list['omega']
+        self.calculated_omega = []
         self.frames_num = params_list['frames_num']
         self.dt = params_list['dt']
         self.number_of_experiments = len(params_list['dt'])
@@ -146,7 +148,8 @@ class physicist:
     def run_post_experiment_analysis(self,osc_list):
         self.update_oscillators_with_time_regression(osc_list)
         self.calc_E(osc_list)
-        # self.mean_frequency(osc_list, 0)
+        for experiment in range(self.number_of_experiments):
+            self.mean_frequency(osc_list, experiment)
     
     
     
@@ -218,15 +221,24 @@ class physicist:
 
     def mean_frequency(self, osc_list, experiment_number):
         if self.osc_num != 3 and self.osc_num != 4:
-            return null
-        elif self.osc_num == 3:
-            indices, x_peaks = scipy.signal.find_peaks(osc_list[1].coordinates_data[experiment_number], height=osc_list[1].coordinates_data[experiment_number][0])
-            print('maxima indices are: ' , indices, 'x peaks are:', x_peaks)
-            for peak in indices:
-                print(f'peak should be: {osc_list[1].coordinates_data[experiment_number][peak]}' )
-        
-        
-        # elif self.osc_num == 4:    
-        #     for i in [2,3]
-        #         find scipy.signal.find_peaks(osc_list[i].coordinates_data[experiment_number], height=osc_list[i].coordinates_data[experiment_number][0])
-        # pass
+            return None
+        elif self.osc_num == 3  or self.osc_num == 4:
+            indices, x_peaks = scipy.signal.find_peaks(osc_list[1].coordinates_data[experiment_number])
+            periods = [] 
+            if len(indices) == 1:
+                print(f'problem calculating omega, only one maxima point found in coordinates data for current dt({self.dt[experiment_number]})')
+                return
+            for i in range(len(indices) - 1):
+                n = indices[i]
+                n_plus_one = indices[i+1]
+                T = abs(n*self.dt[experiment_number] - n_plus_one*self.dt[experiment_number])
+                periods.append(T)
+            avg_period = sum(periods)/len(periods)
+            if avg_period == 0:
+                print('T_avg = 0 for dt: ', self.dt[experiment_number])
+            approx_omega = (2*num_pi)/avg_period
+            self.calculated_omega.append(approx_omega)
+
+            
+            
+            
