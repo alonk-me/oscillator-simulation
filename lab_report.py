@@ -1,3 +1,5 @@
+from matplotlib import pyplot
+from matplotlib import style
 from math import sqrt
 class lab_report:
     
@@ -14,6 +16,7 @@ class lab_report:
             self.generate_single_frequencies_file(physicist)
         if physicist.osc_num > 100 :
             self.generate_single_v_wave_file(physicist)
+        self.generate_plots(physicist, osc_list)
     
     
     
@@ -90,9 +93,56 @@ class lab_report:
         scribe.close()
         
         
+    def generate_plots(self, physicist, osc_list):
+        for experiment in range(physicist.number_of_experiments):
+            time_list = []
+            for i in range(physicist.frames_num[experiment]):
+                time_list.append(i*physicist.dt[experiment])
+    
+            self.generate_energy_plots(physicist, experiment, time_list)
+            self.generate_motion_plots(physicist, osc_list, experiment, time_list)
+            
+       
+    
+       
         
         
+    def generate_motion_plots(self, physicist, osc_list, experiment, time_list):
+        middle_index = len(osc_list)//2
+        pyplot.style.use('seaborn-darkgrid')
+        fig, (ax1, ax2, ax3) = pyplot.subplots(3)
+        ax1.plot(time_list, osc_list[middle_index].coordinates_data[experiment], label='coordinates', color='g')
+        ax2.plot(time_list, osc_list[middle_index].velocity_data[experiment], label='velocity', color='r')
+        ax3.plot(time_list, osc_list[middle_index].acceleration_data[experiment], label='acceleration', color='b')
+        ax1.legend()
+        ax1.set_title(f'location as a function of time for experiment {experiment+1}')
+        ax1.set_xlabel('time (s)')
+        ax1.set_ylabel('location (m)')
+        ax2.legend()
+        ax2.set_title(f'velocity as a function of time for experiment {experiment+1}')
+        ax2.set_xlabel('time (s)')
+        ax2.set_ylabel('velocity (m/s)')
+        ax3.legend()
+        ax3.set_title(f'acceleration as a function of time for experiment {experiment+1}')
+        ax3.set_xlabel('time (s)')
+        ax3.set_ylabel('acceleration (m/s^2)')
+        pyplot.tight_layout()
+        fig.savefig('kinematics.png')
+        pyplot.close
         
+    def generate_energy_plots(self, physicist, experiment, time_list):
+        pyplot.style.use('seaborn-darkgrid')
+        fig, ax = pyplot.subplots()
+        ax.plot(time_list, physicist.kinetic_energy[experiment], label='kinetic energy', color='g')
+        ax.plot(time_list, physicist.potential_energy[experiment], label='potential energy', color='r')
+        ax.plot(time_list, physicist.total_energy[experiment], label='total energy', color='b')
+        ax.legend()
+        ax.set_title(f'energy as a function of time for experiment {experiment+1}')
+        ax.set_xlabel('time (s)')
+        ax.set_ylabel('energy (joule)')
+        pyplot.tight_layout()
+        fig.savefig('Energy.png')
+        pyplot.close
         
         
     def generate_html_report(self, osc_list, num_frames):
