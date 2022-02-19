@@ -1,4 +1,6 @@
+from math import sqrt
 class lab_report:
+    
     def __init__(self):
         pass
     
@@ -10,6 +12,8 @@ class lab_report:
             self.generate_multiple_frames_files(osc_list, physicist.frames_num, physicist.number_of_experiments)
         if physicist.osc_num <= 4 :
             self.generate_single_frequencies_file(physicist)
+        if physicist.osc_num > 100 :
+            self.generate_single_v_wave_file(physicist)
     
     
     
@@ -55,7 +59,19 @@ class lab_report:
             delta_omega_str = str(delta_omega) + '\n'
             scribe.write(delta_omega_str)
             
-    
+        
+    def generate_single_v_wave_file(self, physicist):
+        scribe = open('v_wave.txt', 'a')
+        v_wave_analytic = sqrt(physicist.k/physicist.mass)*physicist.L
+        v_wave_analytic_str = str(v_wave_analytic) + '\t'
+        for i in range(physicist.number_of_experiments):
+            scribe.write(v_wave_analytic_str)
+            v_wave_approx = str(physicist.calculated_wave_velocity[i]) + '\t'
+            scribe.write(v_wave_approx)
+            delta_v_wave = abs(v_wave_analytic - physicist.calculated_wave_velocity[i])/v_wave_analytic
+            delta_omega_str = str(delta_v_wave) + '\n'
+            scribe.write(delta_omega_str)
+            
     
     
     
@@ -72,6 +88,11 @@ class lab_report:
                 
             scribe.write('\n')
         scribe.close()
+        
+        
+        
+        
+        
         
         
     def generate_html_report(self, osc_list, num_frames):

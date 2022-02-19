@@ -19,6 +19,7 @@ class physicist:
         self.osc_num = params_list['osc_num']
         self.omega = params_list['omega']
         self.calculated_omega = []
+        self.calculated_wave_velocity = []
         self.frames_num = params_list['frames_num']
         self.dt = params_list['dt']
         self.number_of_experiments = len(params_list['dt'])
@@ -150,7 +151,7 @@ class physicist:
         self.calc_E(osc_list)
         for experiment in range(self.number_of_experiments):
             self.mean_frequency(osc_list, experiment)
-    
+            self.calc_wave_vel(osc_list[-1], experiment)
     
     
     def update_oscillators_with_time_regression(self, osc_list):
@@ -238,7 +239,28 @@ class physicist:
                 print('T_avg = 0 for dt: ', self.dt[experiment_number])
             approx_omega = (2*num_pi)/avg_period
             self.calculated_omega.append(approx_omega)
-
             
             
+    def calc_wave_vel(self, last_osc, experiment_number):
+        if self.osc_num <= 100:
+            return None
+        if self.last_is_open == True  and self.first_is_open == True:
+            initial_time_of_movement = self.find_time_of_last_oscillator_first_movement(last_osc, experiment_number)
+            if initial_time_of_movement == None:
+                return
+            osc_distance = (self.osc_num - 1)*self.L
+            C_approx = osc_distance/initial_time_of_movement
+            self.calculated_wave_velocity.append(C_approx)
+        else:
+            return None
+            
+    def find_time_of_last_oscillator_first_movement(self, last_osc, experiment_number):
+        number_of_coordinates_data_points = len(last_osc.coordinates_data[experiment_number])
+        for i in range(number_of_coordinates_data_points - 1):
+            if last_osc.coordinates_data[experiment_number][i] != last_osc.coordinates_data[experiment_number][i+1]:
+                initial_time_of_movement = (i+1)*self.dt[experiment_number]
+                return initial_time_of_movement
+        print('error: no change found in location of last oscillator')
+        return None
+                
             
