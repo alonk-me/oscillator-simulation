@@ -81,7 +81,7 @@ class physicist:
             return 0
         force = self.calculate_force_on_single_oscillator(oscillator.x)
         acceleration = force/self.mass
-        return  acceleration    # can be changed to oscillator.a without return 
+        return  acceleration    
         
     def calculate_force_on_single_oscillator(self, x):
         ''' calculates the force on a single oscillator'''
