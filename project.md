@@ -1,13 +1,13 @@
 # Alon physics project
 ### to do list:
-<p style="color:green">1. create parser for input files</p> 
-2. analyze functions
-    - location function
-    - velocity function
-    - acceleration function
-    - a[i] = 1/m sigma F(x[i]) = (2k/m) * (x[i]-L[i])
-3. main function 
-4. output parser
+the project is split into 3 main classes:
+<p style="color:green">1. physicist.py - used for managing the experiment</p> 
+<p style="color:red">2. oscillator.py - a simulation of the particles</p>
+<p style="color:blue">3. lab_report.py - creats the desired files and plots</p>
+<p>other then that there are some very minor functions and scripting. the program is run from the </p>
+
+
+<p> </p>
 
 #### notes
 | section | note|
@@ -17,4 +17,3 @@
 | flow | calculate velocity then location then acceleration <br/> and then move to next frame |
 
 
-<p>clac E is called calculate energy</p>
