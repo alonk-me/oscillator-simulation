@@ -3,9 +3,10 @@ import scipy.signal
 from math import pi as num_pi
 
 class physicist:
-    '''physicist is a class to manage the experiment. it does this by calculating acceleration, force, velocity, coordinates for the particles . it takes in all the general data that is not specific to one oscillator.'''
+    '''physicist is a class to manage the experiment. it does this by calculating acceleration, force, velocity, coordinates for the particles as well as post experiment analysis. it takes in all the general data that is not specific to one oscillator.'''
     
     def __init__(self, params_list, input_list):
+        '''the data the class holds '''
         self.mass = params_list['mass'] 
         self.k = params_list['k']
         self.x_list = input_list['x']
@@ -147,6 +148,7 @@ class physicist:
     
     
     def run_post_experiment_analysis(self,osc_list):
+        '''initiates post experiment analysis: velocity time regression, energy, mean frequency calculation and wave velocity calculation'''
         self.update_oscillators_with_time_regression(osc_list)
         self.calc_E(osc_list)
         for experiment in range(self.number_of_experiments):
@@ -155,12 +157,14 @@ class physicist:
     
     
     def update_oscillators_with_time_regression(self, osc_list):
+        '''runs velocity time regression for each oscillator'''
         for osc in osc_list:
             self.calculate_and_set_time_regression_velocity_array(osc)
     
     
 
     def calculate_and_set_time_regression_velocity_array(self, osc):
+        '''actual time regression  calculation'''
         for experiment in range(self.number_of_experiments):
             dt_experiment = self.dt[experiment]
             for i in range(len(osc.velocity_data[experiment])):
@@ -183,6 +187,7 @@ class physicist:
         
         
     def calc_E(self, osc_list):
+        '''initiates energy calculation for every experiment (number of dt/frames) '''
         for experiment in range(self.number_of_experiments):
             self.kinetic_energy.append(self.calculate_kinetic_energy(osc_list, experiment))
             self.potential_energy.append(self.calculate_potential_energy(osc_list, experiment))
@@ -191,6 +196,7 @@ class physicist:
                 
         
     def calculate_kinetic_energy(self, osc_list, experiment_number):
+        '''function to calculate kinetic energy '''
         kinetic_energy_in_experiment = []
         for frame in range(self.frames_num[experiment_number]):
             kinetic_energy_in_frame = 0
@@ -201,6 +207,7 @@ class physicist:
         return kinetic_energy_in_experiment
             
     def calculate_potential_energy(self,osc_list, experiment_number):
+        '''function to calculate potential energy '''
         potential_energy_in_experiment = []
         for frame in range(self.frames_num[experiment_number]):
             potential_energy_in_frame = 0
@@ -214,6 +221,7 @@ class physicist:
         return potential_energy_in_experiment
 
     def calculate_total_energy(self, osc_list, experiment_number):
+        '''function to calculate total energy '''
         total_energy_in_experiment = []
         for frame in range(self.frames_num[experiment_number]):
             total_energy_in_frame = self.potential_energy[experiment_number][frame] + self.kinetic_energy[experiment_number][frame]
@@ -221,6 +229,7 @@ class physicist:
         return total_energy_in_experiment 
 
     def mean_frequency(self, osc_list, experiment_number):
+        '''function to calculate mean frequency '''
         if self.osc_num != 3 and self.osc_num != 4:
             return None
         elif self.osc_num == 3  or self.osc_num == 4:
@@ -242,6 +251,7 @@ class physicist:
             
             
     def calc_wave_vel(self, last_osc, experiment_number):
+        '''function to calculate wave velocity '''
         if self.osc_num <= 100:
             return None
         if self.last_is_open == True  and self.first_is_open == True:
@@ -255,6 +265,7 @@ class physicist:
             return None
             
     def find_time_of_last_oscillator_first_movement(self, last_osc, experiment_number):
+        '''finds the initial moment of movement '''
         number_of_coordinates_data_points = len(last_osc.coordinates_data[experiment_number])
         for i in range(number_of_coordinates_data_points - 1):
             if last_osc.coordinates_data[experiment_number][i] != last_osc.coordinates_data[experiment_number][i+1]:
@@ -263,4 +274,4 @@ class physicist:
         print('error: no change found in location of last oscillator')
         return None
                 
-            
+        

@@ -1,10 +1,11 @@
 import file_parser
 from physicist import *
 from lab_report import *
+'''main file to load and initiate program '''
 
+input_file_path = '/example/input_initState2.json'   # can be changed to cmd read
+params_file_path = '/example/input_parameters2.json'  # can be changed to cmd read
 
-input_file_path = '/example/input_initState5.json'   # can be changed to cmd read
-params_file_path = '/example/input_parameters5.json'  # can be changed to cmd read
 
 input_data = file_parser.json_file_parser(input_file_path)   
 parameters_data = file_parser.json_file_parser(params_file_path)
