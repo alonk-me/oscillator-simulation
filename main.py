@@ -3,9 +3,8 @@ from physicist import *
 from lab_report import *
 '''main file to load and initiate program '''
 
-input_file_path = '/example/input_initState2.json'   # can be changed to cmd read
-params_file_path = '/example/input_parameters2.json'  # can be changed to cmd read
-
+input_file_path = input('please insert full path to init state json file:')
+params_file_path = input('please insert full path to parameters json file:')
 
 input_data = file_parser.json_file_parser(input_file_path)   
 parameters_data = file_parser.json_file_parser(params_file_path)
