@@ -1,11 +1,4 @@
-<!doctype html>
-<html>
-<head>
-<title>HTML Page</title>
-<meta name="description" content="project page">
-<meta name="keywords" content="html">
-</head>
-<body>
+
 <h1>Python Physics Project - oscillator chain simulation</h1> 
 
 <p>the project is split into 3 main classes:</p>
@@ -17,6 +10,3 @@ the program is run from the main.py file, and needs the full path, for initState
 the output files are saved in the location of the user in cmd.</br>
 the libraries used are matplotlib and scipy.</p>
 
-
-</body>
-</html>
